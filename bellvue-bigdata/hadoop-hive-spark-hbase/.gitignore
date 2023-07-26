@@ -1,0 +1,10 @@
+# IDE garbage
+.idea/
+
+# Livy batch files, copied over from elsewhere, except one sample batch
+data/batches/*
+!data/batches/sample_batch.py
+
+# Spark job results
+data/output/
+/logs/*

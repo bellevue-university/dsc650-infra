@@ -1,0 +1,6 @@
+aa 2
+bb 1
+cc 3
+dd 1
+ee 1
+ff 1

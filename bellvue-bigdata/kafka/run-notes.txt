@@ -1,0 +1,6 @@
+/opt/kafka_2.13-2.8.1/bin/kafka-topics.sh --create --topic test --bootstrap-server localhost:9092
+
+/opt/kafka_2.13-2.8.1/bin/kafka-console-producer.sh  --topic my-topic --bootstrap-server localhost:9092
+
+/opt/kafka_2.13-2.8.1/bin/kafka-console-consumer.sh --topic my-topic --from-beginning --bootstrap-server localhost:9092
+

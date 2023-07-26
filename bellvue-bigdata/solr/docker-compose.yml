@@ -1,0 +1,15 @@
+services:
+  solr:
+    image: solr:latest
+    container_name: solr
+    ports:
+      - "8983:8983"
+    volumes:
+      - solr_data:/var/solr
+    environment:
+      - SOLR_HOME=/var/solr
+    restart: always
+
+volumes:
+  solr_data:
+    driver: local
