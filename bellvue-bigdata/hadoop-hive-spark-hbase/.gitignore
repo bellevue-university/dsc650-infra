@@ -1,4 +1,4 @@
-# IDE garbage
+# IDE
 .idea/
 
 # Livy batch files, copied over from elsewhere, except one sample batch
