@@ -11,6 +11,7 @@ services:
       - nifi_content:/opt/nifi/nifi-current/content_repository
       - nifi_provenance:/opt/nifi/nifi-current/provenance_repository
       - nifi_conf:/opt/nifi/nifi-current/conf
+      - nifi_logs:/opt/nifi/nifi-current/logs
     environment:
       - NIFI_WEB_PROXY_HOST=3.134.216.46:8443
 volumes:
@@ -23,4 +24,6 @@ volumes:
   nifi_provenance:
     driver: local
   nifi_conf:
+    driver: local
+  nifi_logs:
     driver: local
