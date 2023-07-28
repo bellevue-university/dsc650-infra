@@ -1,15 +1,14 @@
+version: '3'
 services:
   solr:
-    image: solr:latest
-    container_name: solr
+    image: solr
     ports:
-      - "8983:8983"
+     - "8983:8983"
     volumes:
-      - solr_data:/var/solr
-    environment:
-      - SOLR_HOME=/var/solr
-    restart: always
-
+      - data:/var/solr
+    command:
+      - solr-precreate
+      - gettingstarted
 volumes:
-  solr_data:
+  data:
     driver: local
