@@ -13,7 +13,7 @@ services:
       - "9092"
     environment:
       DOCKER_API_VERSION: 1.22
-      KAFKA_ADVERTISED_HOST_NAME: ip-172-31-45-112.us-east-2.compute.internal
+      KAFKA_ADVERTISED_HOST_NAME: IPADDR
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
