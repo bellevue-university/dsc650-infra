@@ -17,28 +17,29 @@ sudo apt-get -y install docker-compose
 sudo usermod -aG docker $USER
 newgrp docker
 
-# Update Kafka
-
-KAFKA_DIR=bellvue-bigdata/kafka
-EXTERNALIP=`hostname -f`
-sed -i "s|IPADDR|${EXTERNALIP}|g" ${KAFKA_DIR}/docker-compose.yml
-
 # Install NiFi
-sudo apt-get install -y openjdk-11-jdk wget unzip
+sudo apt-get install -y openjdk-11-jdk wget unzip jq
 
 CURRENT_DIR=`pwd`
 NIFI_DIR=bellvue-bigdata/nifi
-NIFI_VERSION=1.23.0
 
 cd ${NIFI_DIR}
-echo "Installing NiFi version: $NIFI_VERSION"
 
-# Download and extract NiFi
-wget https://dlcdn.apache.org/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.zip
-unzip nifi-${NIFI_VERSION}-bin.zip
+# Fetch the preferred mirror from Apache
+MIRROR=$(curl -s https://www.apache.org/dyn/closer.cgi?as_json=1 | jq -r '.preferred')
 
-rm -rf nifi-${NIFI_VERSION}-bin.zip
+# Fetch the latest NiFi version from Apache NiFi site
+NIFI_FULL_VERSION=$(curl -s https://nifi.apache.org/download.html | grep -Eo 'nifi-[0-9]+.[0-9]+.[0-9]+' | sort -V | tail -1)
+NIFI_VERSION=$(echo $NIFI_FULL_VERSION | grep -oP '(?<=nifi-).+')
+
+# Construct the URL for latest NiFi tarball
+DOWNLOAD_URL="${MIRROR}nifi/${NIFI_VERSION}/${NIFI_FULL_VERSION}-bin.zip"
+
+# Download the tarball
+wget $DOWNLOAD_URL
+
+unzip nifi-*-bin.zip
+
+rm -rf nifi-*-bin.zip
 
 cd ${CURRENT_DIR}
-
-
