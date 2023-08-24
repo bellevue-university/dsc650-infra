@@ -17,3 +17,28 @@ sudo apt-get -y install docker-compose
 sudo usermod -aG docker $USER
 newgrp docker
 
+# Update Kafka
+
+KAFKA_DIR=bellvue-bigdata/kafka
+EXTERNALIP=`hostname -f`
+sed -i "s|IPADDR|${EXTERNALIP}|g" ${KAFKA_DIR}/docker-compose.yml
+
+# Install NiFi
+sudo apt-get install -y openjdk-11-jdk wget unzip
+
+CURRENT_DIR=`pwd`
+NIFI_DIR=bellvue-bigdata/nifi
+NIFI_VERSION=1.23.0
+
+cd ${NIFI_DIR}
+echo "Installing NiFi version: $NIFI_VERSION"
+
+# Download and extract NiFi
+wget https://dlcdn.apache.org/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.zip
+unzip nifi-${NIFI_VERSION}-bin.zip
+
+rm -rf nifi-${NIFI_VERSION}-bin.zip
+
+cd ${CURRENT_DIR}
+
+
