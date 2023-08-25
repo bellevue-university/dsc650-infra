@@ -18,7 +18,6 @@ sudo systemctl enable docker.service
 sudo apt-get -y install docker-compose
 sudo usermod -aG docker $USER
 
-echo "hello"
 #Configure Kafka
 
 KAFKA_DIR=bellvue-bigdata/kafka
