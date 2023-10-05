@@ -31,7 +31,7 @@ sed -i "s|IPADDR|${EXTERNALIP}|g" $KAFKA_DIR/docker-compose.yml
 sudo apt-get install -y openjdk-11-jdk wget unzip jq
 
 CURRENT_DIR=`pwd`
-NIFI_DIR="${CURRENT_DIR}/bellvue-bigdata/nifi"
+NIFI_DIR="${CURRENT_DIR}/bellevue-bigdata/nifi"
 mkdir -p $NIFI_DIR
 
 MIRROR=$(curl -s https://www.apache.org/dyn/closer.cgi?as_json=1 | jq -r '.preferred')
