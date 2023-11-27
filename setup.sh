@@ -30,13 +30,14 @@ sed -i "s|IPADDR|${EXTERNALIP}|g" $KAFKA_DIR/docker-compose.yml
 # Install NiFi
 sudo apt-get install -y openjdk-11-jdk wget unzip jq
 
-CURRENT_DIR=`pwd`
+CURRENT_DIR=$(pwd)
 NIFI_DIR="${CURRENT_DIR}/bellevue-bigdata/nifi"
 mkdir -p $NIFI_DIR
 
+# Set the specific NiFi version
+NIFI_VERSION="1.24.0"
+NIFI_FULL_VERSION="nifi-${NIFI_VERSION}"
 MIRROR=$(curl -s https://www.apache.org/dyn/closer.cgi?as_json=1 | jq -r '.preferred')
-NIFI_FULL_VERSION=$(curl -s https://nifi.apache.org/download.html | grep -Eo 'nifi-[0-9]+.[0-9]+.[0-9]+' | sort -V | tail -1)
-NIFI_VERSION=$(echo $NIFI_FULL_VERSION | grep -oP '(?<=nifi-).+')
 DOWNLOAD_URL="${MIRROR}nifi/${NIFI_VERSION}/${NIFI_FULL_VERSION}-bin.zip"
 
 EXPECTED_FILE="${NIFI_DIR}/${NIFI_FULL_VERSION}-bin.zip"
@@ -65,4 +66,3 @@ fi
 cd ${CURRENT_DIR}
 set +x
 newgrp docker
-
