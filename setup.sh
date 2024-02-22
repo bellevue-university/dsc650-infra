@@ -23,7 +23,7 @@ sudo usermod -aG docker $USER
 
 #Configure Kafka
 
-KAFKA_DIR=bellvue-bigdata/kafka
+KAFKA_DIR=bellevue-bigdata/kafka
 EXTERNALIP=`hostname -f`
 sed -i "s|IPADDR|${EXTERNALIP}|g" $KAFKA_DIR/docker-compose.yml
 
@@ -35,12 +35,10 @@ NIFI_DIR="${CURRENT_DIR}/bellevue-bigdata/nifi"
 mkdir -p $NIFI_DIR
 
 # Set the specific NiFi version
-NIFI_VERSION="1.24.0"
-NIFI_FULL_VERSION="nifi-${NIFI_VERSION}"
-MIRROR=$(curl -s https://www.apache.org/dyn/closer.cgi?as_json=1 | jq -r '.preferred')
-DOWNLOAD_URL="${MIRROR}nifi/${NIFI_VERSION}/${NIFI_FULL_VERSION}-bin.zip"
+NIFI_VERSION="1.25.0"
+DOWNLOAD_URL="https://archive.apache.org/dist/nifi/${NIFI_VERSION}/nifi-${NIFI_VERSION}-bin.zip"
 
-EXPECTED_FILE="${NIFI_DIR}/${NIFI_FULL_VERSION}-bin.zip"
+EXPECTED_FILE="${NIFI_DIR}/nifi-${NIFI_VERSION}-bin.zip"
 
 MAX_RETRIES=10
 RETRY_DELAY=10
@@ -60,9 +58,17 @@ if [[ -f "$EXPECTED_FILE" ]]; then
     rm -rf "$EXPECTED_FILE"
 else
     echo "Failed to download after $MAX_RETRIES attempts."
-    exit 1
 fi
 
 cd ${CURRENT_DIR}
+
+NIFI_HADOOP_CONF_DIR=bellevue-bigdata/nifi/hadoopconf
+EXTERNALIP=`hostname -f`
+sed -i "s|HOST|${EXTERNALIP}|g" $NIFI_HADOOP_CONF_DIR/*.xml
+
+chmod -R 777 bellevue-bigdata
+
 set +x
 newgrp docker
+
+
