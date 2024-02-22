@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+
+<!-- http://hadoop.apache.org/docs/current/hadoop-project-dist/hadoop-common/ClusterSetup.html -->
+<configuration>
+
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>/dfs/name</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>/dfs/data</value>
+    </property>
+
+    <!-- Replication factor. Files you store on HDFS will be stored
+    on this many machines -->
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+    <property>
+        <name>dfs.permissions.enabled</name>
+        <value>false</value>
+    </property>
+	
+    <!-- for kudi -->
+    <property>
+      <name>dfs.support.append</name>
+      <value>true</value>
+    </property>
+    <property>
+      <name>dfs.client.block.write.replace-datanode-on-failure.policy</name>
+      <value>NEVER</value>
+    </property>
+    <property>
+      <name>dfs.client.block.write.replace-datanode-on-failure</name>
+      <value>true</value>
+    </property>
+</configuration>
