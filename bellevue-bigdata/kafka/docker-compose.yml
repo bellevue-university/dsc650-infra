@@ -1,4 +1,4 @@
-version: '2'
+version: '2.1'
 services:
   zookeeper:
     image: nasheb/zookeeper:1.0
@@ -12,7 +12,6 @@ services:
     ports:
       - "9092"
     environment:
-      DOCKER_API_VERSION: 1.22
       KAFKA_ADVERTISED_HOST_NAME: IPADDR
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:

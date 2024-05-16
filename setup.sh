@@ -66,9 +66,16 @@ NIFI_HADOOP_CONF_DIR=bellevue-bigdata/nifi/hadoopconf
 EXTERNALIP=`hostname -f`
 sed -i "s|HOST|${EXTERNALIP}|g" $NIFI_HADOOP_CONF_DIR/*.xml
 
-chmod -R 777 bellevue-bigdata
+chmod -R 777 ${NIFI_HADOOP_CONF_DIR}
+
+# Get the original user who ran the script with sudo
+ORIGINAL_USER=${SUDO_USER:-$(whoami)}
+
+# Add the original user to the docker group
+sudo usermod -aG docker $ORIGINAL_USER
+
+# Refresh group membership (for the current session)
+sudo -u $ORIGINAL_USER newgrp docker
 
 set +x
-newgrp docker
-
 
