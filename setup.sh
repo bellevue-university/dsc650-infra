@@ -74,8 +74,9 @@ ORIGINAL_USER=${SUDO_USER:-$(whoami)}
 # Add the original user to the docker group
 sudo usermod -aG docker $ORIGINAL_USER
 
+set +x
+
 # Refresh group membership (for the current session)
 sudo -u $ORIGINAL_USER newgrp docker
 
-set +x
 
