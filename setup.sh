@@ -62,11 +62,11 @@ fi
 
 cd ${CURRENT_DIR}
 
-NIFI_HADOOP_CONF_DIR=bellevue-bigdata/nifi/hadoopconf
+NIFI_HADOOP_CONF_DIR_ROOT=bellevue-bigdata/nifi
 EXTERNALIP=`hostname -f`
-sed -i "s|HOST|${EXTERNALIP}|g" $NIFI_HADOOP_CONF_DIR/*.xml
+sed -i "s|HOST|${EXTERNALIP}|g" $NIFI_HADOOP_CONF_DIR_ROOT/hadoopconf/*.xml
 
-chmod -R 777 ${NIFI_HADOOP_CONF_DIR}
+chmod -R 777 ${NIFI_HADOOP_CONF_DIR_ROOT}
 
 # Get the original user who ran the script with sudo
 ORIGINAL_USER=${SUDO_USER:-$(whoami)}

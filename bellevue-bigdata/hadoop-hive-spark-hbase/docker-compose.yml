@@ -146,6 +146,8 @@ services:
       - 45080:45080
       # Flink JobManager
       - 10020:10020
+      # Namenode
+      - 9000:9000
     volumes:
       - ./data:/data
       - ./data_share:/data_share
