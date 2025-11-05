@@ -18,6 +18,9 @@ sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plug
 sudo systemctl start docker.service
 sudo systemctl enable docker.service
 sudo apt-get -y install docker-compose
+# Fix for Python 3.12 distutils removal – re-enable docker-compose v1
+sudo apt install -y python3-pip
+sudo pip install --break-system-packages setuptools==68.2.2
 sudo usermod -aG docker $USER
 
 # Configure Kafka
