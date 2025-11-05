@@ -23,6 +23,9 @@ sudo apt install -y python3-pip
 sudo pip install --break-system-packages setuptools==68.2.2
 sudo usermod -aG docker $USER
 
+# Install Git
+sudo apt-get -y install git
+
 # Configure Kafka
 KAFKA_DIR=bellevue-bigdata/kafka
 EXTERNALIP=$(hostname -f)
