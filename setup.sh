@@ -65,11 +65,9 @@ good_size() {
 if fetch_file "$ARCHIVE_URL" "$EXPECTED_FILE"; then
   if good_size "$EXPECTED_FILE"; then
     unzip -q "$EXPECTED_FILE" -d "$NIFI_DIR"
-    rm -f "$EXPECTED_FILE"
     echo "NiFi ${NIFI_VERSION} downloaded and extracted."
   else
     echo "Downloaded file too small — likely a 404 page. Aborting."
-    rm -f "$EXPECTED_FILE"
     exit 1
   fi
 else
