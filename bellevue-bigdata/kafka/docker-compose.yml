@@ -8,7 +8,6 @@ services:
 
   kafka:
     image: nasheb/kafka:1.0
-    build: .
     ports:
       - "9092"
     environment:
