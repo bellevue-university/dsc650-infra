@@ -1,6 +1,12 @@
 #!/bin/bash
 
 set -x
+export DEBIAN_FRONTEND=noninteractive
+
+if command -v needrestart >/dev/null 2>&1; then
+  sudo mkdir -p /etc/needrestart/conf.d
+  echo 'nrconf{restart} = "a";' | sudo tee /etc/needrestart/conf.d/99-no-prompt.conf
+fi
 
 # Install Docker
 sudo apt-get -y update
