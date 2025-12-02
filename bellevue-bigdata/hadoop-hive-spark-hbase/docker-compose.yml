@@ -1,6 +1,5 @@
 version: "3.7"
 services:
-
   hivemetastore:
     image: postgres:11.5
     hostname: hivemetastore
@@ -9,6 +8,7 @@ services:
     expose:
       - 5432
     ports:
+      # JDBC 
       - 5432:5432
     volumes:
       - ./init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -29,7 +29,7 @@ services:
       - "zoo1:172.28.1.11"
       - "zoo2:172.28.1.12"
       - "zoo3:172.28.1.13"
-
+    
   zoo1:
     image: zookeeper
     restart: always
@@ -51,7 +51,6 @@ services:
       - "zoo1:172.28.1.11"
       - "zoo2:172.28.1.12"
       - "zoo3:172.28.1.13"
-
   zoo2:
     image: zookeeper
     restart: always
@@ -72,7 +71,6 @@ services:
       - "zoo1:172.28.1.11"
       - "zoo2:172.28.1.12"
       - "zoo3:172.28.1.13"
-
   zoo3:
     image: zookeeper
     restart: always
@@ -93,9 +91,10 @@ services:
       - "zoo1:172.28.1.11"
       - "zoo2:172.28.1.12"
       - "zoo3:172.28.1.13"
-
+      
   master:
     image: nasheb/bigdata:1.0
+#    build: '../hadoop-hive-spark-docker'
     hostname: master
     depends_on:
       - hivemetastore
@@ -113,25 +112,41 @@ services:
       SPARK_LOCAL_IP: 172.28.1.1
       SPARK_MASTER_HOST: 172.28.1.1
       SPARK_LOCAL_HOSTNAME: master
+      ZOO_SERVERS_HOSTNAME: zoo1 zoo2 zoo3
+      # - SPARK_DEPLOY_MODE=client
       SPARK_MASTER: yarn
       LOCAL_DIR_WHITELIST: /data/batches/
       ENABLE_HIVE_CONTEXT: "false"
-      ZOO_SERVERS_HOSTNAME: zoo1 zoo2 zoo3
+      # Defaults are fine for variables below. Uncomment to change them.
+    expose:
+      - 1-65535
     ports:
+      # Spark Master Web UI
       - 8080:8080
+      # Spark job Web UI: increments for each successive job
       - 4040:4040
       - 4041:4041
       - 4042:4042
       - 4043:4043
+      # Spark History server
       - 18080:18080
+      # YARN UI
       - 8088:8088
+      # YARN LOG SERVER UI
       - 19888:19888
+      # Hadoop namenode UI
       - 9870:9870
+      # Hadoop secondary namenode UI
       - 9868:9868
+      # Hive JDBC
       - 10000:10000
+      # HBase UI
       - 16010:16010
+      # Flink UI
       - 45080:45080
+      # Flink JobManager
       - 10020:10020
+      # Namenode
       - 9000:9000
     volumes:
       - ./data:/data
@@ -155,6 +170,7 @@ services:
 
   worker1:
     image: nasheb/bigdata:1.0
+#    build: '../hadoop-hive-spark-docker'
     hostname: worker1
     depends_on:
       - hivemetastore
@@ -173,11 +189,17 @@ services:
       SPARK_LOCAL_IP: 172.28.1.2
       SPARK_MASTER_HOST: 172.28.1.1
       HADOOP_DATANODE_UI_PORT: 9864
-      ZOO_SERVERS_HOSTNAME: zoo1 zoo2 zoo3
+      ZOO_SERVERS_HOSTNAME:  zoo1 zoo2 zoo3
+    expose:
+      - 1-65535
     ports:
+      # Hadoop datanode UI
       - 9864:9864
+      #Spark worker UI
       - 8981:8981
+      # Spark Job UI
       - 8101:8042
+      # Flink UI
       - 45081:45080
     volumes:
       - ./data:/data
@@ -199,6 +221,7 @@ services:
 
   worker2:
     image: nasheb/bigdata:1.0
+#    build: '../hadoop-hive-spark-docker'
     hostname: worker2
     depends_on:
       - hivemetastore
@@ -217,11 +240,17 @@ services:
       SPARK_MASTER_HOST: 172.28.1.1
       HADOOP_NODE: datanode
       HADOOP_DATANODE_UI_PORT: 9865
-      ZOO_SERVERS_HOSTNAME: zoo1 zoo2 zoo3
+      ZOO_SERVERS_HOSTNAME:  zoo1 zoo2 zoo3
+    expose:
+      - 1-65535
     ports:
+      # Hadoop datanode UI
       - 9865:9865
+      # Spark worker UI
       - 8982:8982
+      # Spark Job UI
       - 8102:8042
+      # Flink UI
       - 45082:45080
     volumes:
       - ./data:/data
@@ -247,3 +276,5 @@ networks:
       driver: default
       config:
         - subnet: 172.28.0.0/16
+volumes:
+  data_share:
